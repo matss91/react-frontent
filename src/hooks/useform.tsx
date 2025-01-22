@@ -1,10 +1,14 @@
 import { useState, ChangeEvent } from "react";
 
 // Define a type for the form values
-export const useForm =(initialState={} as HTMLFormElement) => {
-    const [formValues, setFormValues] = useState(initialState);
+type FormValues = { [key: string]: string };
 
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+export const useForm = <T extends FormValues>(initialState: T) => {
+    const [formValues, setFormValues] = useState<T>(initialState);
+
+    const handleInputChange = (
+        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    ) => {
         setFormValues((prevValues) => ({
             ...prevValues,
             [e.target.name]: e.target.value,
