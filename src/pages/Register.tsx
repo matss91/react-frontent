@@ -18,12 +18,28 @@ type FormValues = { [key: string]: string };
     password2:""
   }as FormValues);
 
+  const egRegEmail = /^[^@]+@[^@]+\.[a-zA-Z]{2,}/;
+
  const handleSubmit=async(e:FormEvent)=>{
 e.preventDefault()
  if([formValues.name,formValues.email,formValues.password,formValues.password2].includes("")){
   handleShowAlert("todos los campos son obligatorios")
   return null
  }
+
+if(!egRegEmail.test(formValues.email)){
+  handleShowAlert("formato de email no valido")
+return null
+}
+if(formValues.password!=formValues.password2){
+  handleShowAlert("las contraseñas no coinciden")
+  return null
+}
+try {
+  
+} catch (error) {
+  
+}
 reset()
  }
 
