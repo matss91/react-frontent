@@ -1,10 +1,14 @@
 
 import { Link } from "react-router-dom"
 import{useForm}from"../hooks/useform"
-import { FormEvent } from "react";
+import { FormEvent, useContext } from "react";
+import { Alert } from "../components/Alert";
+
+import AuthContext from "../context/AuthProvider";
 
 const Register = () => {
 
+  const {alert,handleShowAlert}=useContext(AuthContext)
 type FormValues = { [key: string]: string };
 
   const {formValues,handleInputChange,reset}=useForm({
@@ -13,9 +17,13 @@ type FormValues = { [key: string]: string };
     password:"",
     password2:""
   }as FormValues);
+
  const handleSubmit=async(e:FormEvent)=>{
 e.preventDefault()
-  console.log(formValues)
+ if([formValues.name,formValues.email,formValues.password,formValues.password2].includes("")){
+  handleShowAlert("todos los campos son obligatorios")
+  return null
+ }
 reset()
  }
 
@@ -23,6 +31,7 @@ reset()
   return (
     <>
     <h1 className="text-sky-500 font-black text-6xl capitalize"><span className="text-slate-700">crea tu cuenta</span></h1>
+   {alert.msg&&<Alert {...alert}></Alert>}
     <form onSubmit={handleSubmit} className="my-10 bg-white shadow rounded-lg p-10" >
     <div className="my-5">
       <label className="uppercase text-gray-600 block text-6xl font-bold" htmlFor='nombre'></label>
