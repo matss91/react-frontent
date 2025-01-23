@@ -5,6 +5,7 @@ import { FormEvent, useContext } from "react";
 import { Alert } from "../components/Alert";
 
 import AuthContext from "../context/AuthProvider";
+import { clientAxios } from "../config/clientAxios";
 
 const Register = () => {
 
@@ -36,9 +37,10 @@ if(formValues.password!=formValues.password2){
   return null
 }
 try {
-  
+  const response=await clientAxios.post("/register",{name:formValues.name,email:formValues.email,password:formValues.password})
+  console.log(response)
 } catch (error) {
-  
+  console.log(error)
 }
 reset()
  }
