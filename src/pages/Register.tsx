@@ -6,6 +6,7 @@ import { Alert } from "../components/Alert";
 
 import AuthContext from "../context/AuthProvider";
 import { clientAxios } from "../config/clientAxios";
+import { showMessajeResponse } from "../utils";
 
 const Register = () => {
 
@@ -38,7 +39,7 @@ if(formValues.password!=formValues.password2){
 }
 try {
   const response=await clientAxios.post("/register",{name:formValues.name,email:formValues.email,password:formValues.password})
-  console.log(response)
+  showMessajeResponse("mensaje",response.data.msg,"error")
 } catch (error) {
   console.log(error)
 }
