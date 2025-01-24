@@ -8,17 +8,25 @@ import AuthContext from "../context/AuthProvider";
 import { clientAxios } from "../config/clientAxios";
 import { showMessajeResponse } from "../utils";
 
+
+export interface FormDataValues{
+  name:string;
+  email:string;
+  password:string;
+  password2:string;
+}
+
 const Register = () => {
 
   const {alert,handleShowAlert}=useContext(AuthContext)
-type FormValues = { [key: string]: string };
 
-  const {formValues,handleInputChange,reset}=useForm({
+
+  const {formValues,handleInputChange,reset}=useForm<FormDataValues>({
     name:"",
     email:"",
     password:"",
     password2:""
-  }as FormValues);
+  });
 
   const egRegEmail = /^[^@]+@[^@]+\.[a-zA-Z]{2,}/;
 
