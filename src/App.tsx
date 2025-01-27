@@ -7,7 +7,7 @@ import {Login}from"./pages/Login"
 import {NotFound}from"./pages/NotFound"
 import {ForgetPassword}from"./pages/ForgetPassword"
 import Register from './pages/Register'
-import cors from"cors"
+
 function App() {
   
 
