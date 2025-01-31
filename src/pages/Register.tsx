@@ -47,7 +47,7 @@ if(formValues.password!=formValues.password2){
 }
 try {
   const response=await clientAxios.post("/register",{name:formValues.name,email:formValues.email,password:formValues.password})
-  showMessajeResponse("mensaje",response.data.msg,"error")
+  showMessajeResponse("mensaje",response.data.msg,"success")
 } catch (error) {
   console.log(error)
 }
