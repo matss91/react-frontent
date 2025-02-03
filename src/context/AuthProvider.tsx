@@ -1,24 +1,32 @@
 import {  createContext, PropsWithChildren,useState } from "react";
 
-export interface AuthContextProps{
 
-auth:{
-nombre?:string,
-apellido?:string,
-token?:string
-
-
-},
-alert:{msg:string};
-handleShowAlert:(msg:string)=>void
+interface Auth{
+    _id?:string,
+    name?:string,
+    email?:string,
 
 }
+
+export interface AuthContextProps{
+
+auth:Auth;
+setAuth:React.Dispatch<React.SetStateAction<Auth>>
+alert:{
+    msg:string
+};
+handleShowAlert:(msg:string)=>void
+ }
+
+
+
+ 
 
 const AuthContext=createContext<AuthContextProps>({} as AuthContextProps)
 
 const AuthProvider=({children}:PropsWithChildren)=>{
 const [alert, setalert] = useState({msg:""});
-
+const [auth, setAuth] = useState({});
  const handleShowAlert=(msg:string)=>{
 setalert({msg})
 setTimeout(()=>{
@@ -27,7 +35,7 @@ setTimeout(()=>{
 
 }
 return (
-<AuthContext.Provider value={{auth:{nombre:"matias",apellido:"c",token:"un token"},alert,handleShowAlert}}>
+<AuthContext.Provider value={{auth,setAuth,alert,handleShowAlert}}>
     
     {children}
     

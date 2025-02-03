@@ -3,8 +3,9 @@ import{useForm}from"../hooks/useform"
 import { FormEvent,useContext } from "react";
 import AuthContext from "../context/AuthProvider";
 import { Alert } from "../components/Alert";
-
+import axios from "axios";
 import { clientAxios } from "../config/clientAxios";
+
 export interface FormLoginValues{
   
   email:string;
@@ -13,7 +14,7 @@ export interface FormLoginValues{
 }
 export const Login = () => {
   const egRegEmail = /^[^@]+@[^@]+\.[a-zA-Z]{2,}/;
-  const {alert,handleShowAlert}=useContext(AuthContext)
+  const {alert,handleShowAlert,setAuth,auth}=useContext(AuthContext)
   const {formValues,handleInputChange,reset}=useForm<FormLoginValues>({
    
     email:"",
@@ -36,11 +37,13 @@ return null
 
 try {
 
- const responseAxios= await clientAxios.post("/login",{email,password})
- console.log(responseAxios)
+ const {data}= await clientAxios.post("/login",{email,password})
+localStorage.setItem("tokenPM",data.token)
+setAuth(data.user)
 } catch (error) {
-  console.log(error)
-  //handleShowAlert(axios.isAxiosError(error)?error.message?.data.msg:error)
+  
+ 
+  handleShowAlert(axios.isAxiosError(error)?error.response?.data.msg:error)
 }
 reset()
 
