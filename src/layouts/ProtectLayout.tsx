@@ -4,6 +4,7 @@ import Header from "../components/Header"
 import SideBar from "../components/SideBar"
 const ProtectLayout = () => {
     const {auth,loading}=useAuth()
+    console.log(auth)
     if(loading)return "cargando..."
   return (
    <>

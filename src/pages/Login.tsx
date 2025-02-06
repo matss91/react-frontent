@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import{useForm}from"../hooks/useform"
 import { FormEvent,useContext } from "react";
-import AuthContext from "../context/AuthProvider";
+import useAuth from "../hooks/useAuth"
 import { Alert } from "../components/Alert";
 import axios from "axios";
 import { clientAxios } from "../config/clientAxios";
@@ -14,7 +14,7 @@ export interface FormLoginValues{
 }
 export const Login = () => {
   const egRegEmail = /^[^@]+@[^@]+\.[a-zA-Z]{2,}/;
-  const {alert,handleShowAlert,setAuth,auth}=useContext(AuthContext)
+  const {alert,handleShowAlert,setAuth,auth}=useAuth()
   const {formValues,handleInputChange,reset}=useForm<FormLoginValues>({
    
     email:"",
@@ -39,7 +39,10 @@ try {
 
  const {data}= await clientAxios.post("/login",{email,password})
 localStorage.setItem("tokenPM",data.token)
-setAuth(data.user)
+console.log(data.user)
+setAuth(data)
+
+
 } catch (error) {
   
  

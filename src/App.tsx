@@ -8,6 +8,7 @@ import {NotFound}from"./pages/NotFound"
 import {ForgetPassword}from"./pages/ForgetPassword"
 import Register from './pages/Register'
 import { ConfirmAccount } from './pages/ConfirmAccount'
+import ProtectLayout from './layouts/ProtectLayout'
 function App() {
   
 
@@ -17,13 +18,17 @@ function App() {
 
 
 
-<Route path="/"  element={< Authlayout/>}></Route>
+<Route path="/"  element={< Authlayout/>}>
 <Route index  element={< Login/>}></Route>
 <Route path="/register" element={<Register/>}></Route>
 <Route path="/confirmar/:token" element={< ConfirmAccount></ConfirmAccount>}></Route>
 <Route path="forget-password" element={<ForgetPassword/>}></Route>
 <Route path="*" element={<NotFound/>}></Route>
+</Route>
+<Route path="/proyectos" element={<ProtectLayout/>}>
 
+
+</Route>
 
 </Routes>
 
