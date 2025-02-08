@@ -11,6 +11,7 @@ import { ConfirmAccount } from './pages/ConfirmAccount'
 import ProtectLayout from './layouts/ProtectLayout'
 import Proyects from './pages/proyects'
 import ProyectAdd from './pages/ProyectAdd'
+import Proyect from './pages/Proyect'
 function App() {
   
 
@@ -32,6 +33,7 @@ function App() {
 <Route path="/proyectos" element={<ProtectLayout/>}>
 <Route index  element={<Proyects/>}></Route>
 <Route path="crear-proyecto" element={<ProyectAdd/>}></Route>
+<Route path=":id" element={<Proyect/>}></Route>
 
 
 
