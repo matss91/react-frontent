@@ -16,7 +16,7 @@ const Proyect = () => {
 
 </svg>
 
-<Link to={"/Proyect/editar/:id"} className="uppercase font-bold">Editar</Link>
+<Link to={"/proyectos/editar-Proyecto/:id"} className="uppercase font-bold">Editar</Link>
 </div>
 ) }
 </div>

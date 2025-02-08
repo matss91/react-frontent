@@ -12,6 +12,7 @@ import ProtectLayout from './layouts/ProtectLayout'
 import Proyects from './pages/proyects'
 import ProyectAdd from './pages/ProyectAdd'
 import Proyect from './pages/Proyect'
+import ProyectEdit from './pages/ProyectEdit'
 function App() {
   
 
@@ -34,6 +35,7 @@ function App() {
 <Route index  element={<Proyects/>}></Route>
 <Route path="crear-proyecto" element={<ProyectAdd/>}></Route>
 <Route path=":id" element={<Proyect/>}></Route>
+<Route path="editar-Proyecto/:id" element={<ProyectEdit/>}></Route>
 
 
 
