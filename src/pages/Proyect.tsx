@@ -24,7 +24,7 @@ const Proyect = () => {
 <button type="button"
 className="text-sm px-5 py-3 w-full md:w-auto rounded-lg uppercase font-bold bg-sky-400 text-white text-center mt-5 flex gap-2 items-center"
 >
-<svg></svg>
+<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="current-color"></svg>
 
 Nueva tarea
 
