@@ -2,10 +2,11 @@ import useAuth from "../hooks/useAuth"
 import { Navigate, Outlet } from "react-router-dom"
 import Header from "../components/Header"
 import SideBar from "../components/SideBar"
+
 const ProtectLayout = () => {
     const {auth,loading}=useAuth()
-    console.log(auth)
-    if(loading)return "cargando..."
+    console.log(auth.name)
+    if(loading){return "cargando..."}
   return (
    <>
    {auth.name?(

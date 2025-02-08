@@ -17,7 +17,9 @@ alert:{
     msg:string
 };
 handleShowAlert:(msg:string)=>void,
-loading:boolean
+loading:boolean,
+signAut:()=>void
+
  }
 
 
@@ -29,13 +31,9 @@ const AuthContext=createContext<AuthContextProps>({} as AuthContextProps)
 const AuthProvider=({children}:PropsWithChildren)=>{
 const [alert, setalert] = useState({msg:""});
 const [auth, setAuth] = useState({});
-const [loading, setloading] = useState(false);
- const handleShowAlert=(msg:string)=>{
-setalert({msg})
-setTimeout(()=>{
-    setalert({msg:""})
-},3000)
- }
+const [loading, setloading] = useState(true);
+
+
 useEffect(() => {
     
     const signin=async()=>{
@@ -57,8 +55,12 @@ authorization:`Bearer ${token}`
 
 
     }})
-    setAuth(data)
-    console.log(data)
+    
+    setAuth({_id:data.user._id,
+            name:data.user.name,
+            email:data.user.email
+    })
+  console.log(auth)
 } catch (error) {
     console.log(error)
     setAuth({})
@@ -70,8 +72,17 @@ authorization:`Bearer ${token}`
 }, []);
 
 
+const handleShowAlert=(msg:string)=>{
+    setalert({msg})
+    setTimeout(()=>{
+        setalert({msg:""})
+    },3000)
+     }
+
+     const signAut=()=>setAuth({})
+
 return (
-<AuthContext.Provider value={{auth,setAuth,alert,handleShowAlert,loading}}>
+<AuthContext.Provider value={{auth,setAuth,alert,handleShowAlert,loading,signAut}}>
     
     {children}
     

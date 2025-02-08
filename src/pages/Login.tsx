@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, redirect, useNavigate } from "react-router-dom"
 import{useForm}from"../hooks/useform"
 import { FormEvent,useContext } from "react";
 import useAuth from "../hooks/useAuth"
@@ -13,6 +13,7 @@ export interface FormLoginValues{
  
 }
 export const Login = () => {
+  const navigate=useNavigate()
   const egRegEmail = /^[^@]+@[^@]+\.[a-zA-Z]{2,}/;
   const {alert,handleShowAlert,setAuth,auth}=useAuth()
   const {formValues,handleInputChange,reset}=useForm<FormLoginValues>({
@@ -21,7 +22,7 @@ export const Login = () => {
     password:"",
    
   });
-
+ 
   const {email,password}=formValues
 const handleSubmit=async(e:FormEvent)=>{
 e.preventDefault()
@@ -36,11 +37,13 @@ return null
 }
 
 try {
-
+  
  const {data}= await clientAxios.post("/login",{email,password})
 localStorage.setItem("tokenPM",data.token)
 console.log(data.user)
 setAuth(data)
+
+navigate('/proyectos');
 
 
 } catch (error) {
