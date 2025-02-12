@@ -13,11 +13,13 @@ import Proyects from './pages/proyects'
 import ProyectAdd from './pages/ProyectAdd'
 import Proyect from './pages/Proyect'
 import ProyectEdit from './pages/ProyectEdit'
+import { ProyectProvider } from './context/ProyectProvider'
 function App() {
   
 
   return (
    <AuthProvider>
+    <ProyectProvider>
 <Routes >
 
 
@@ -43,7 +45,7 @@ function App() {
 </Route>
 
 </Routes>
-
+</ProyectProvider>
    </AuthProvider>
   )
 }

@@ -1,5 +1,6 @@
 import {  createContext, PropsWithChildren,useEffect,useState } from "react";
 import { clientAxios } from "../config/clientAxios";
+import axios from "axios";
 
 
 interface Auth{
@@ -63,6 +64,7 @@ authorization:`Bearer ${token}`
   console.log(auth)
 } catch (error) {
     console.log(error)
+    if(error instanceof Error)handleShowAlert(axios.isAxiosError(error)?error.response?.data.msg:error.message)
     setAuth({})
 }finally{
     setloading(false)
