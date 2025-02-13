@@ -19,3 +19,29 @@ text
 })
 
 }
+
+
+////////////////////////////////////
+
+
+
+
+
+
+type Position= "top-end"| "center"| "center-start"| "center-end"|"bottom"|"bottom-start"|"bottom-end"
+
+type ShowToastMessage=(title:string,position?:Position,icon?:icon)=>void
+
+
+
+export const showToastMessage:ShowToastMessage=(title,position="top-end",icon="success")=>{
+
+    
+Swal.fire({
+    title,
+  position,
+  icon,
+  showConfirmButton: false,
+  timer: 1500
+});
+}

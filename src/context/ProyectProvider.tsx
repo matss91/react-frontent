@@ -2,6 +2,7 @@ import {  createContext,PropsWithChildren, useState,useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
 import { clientAxios } from "../config/clientAxios";
+import { showToastMessage } from "../utils";
 export interface Proyect{
 _id:string,
 name:string,
@@ -78,16 +79,14 @@ const createProyect=async(value:proyectsContextProps)=>{
         const token=localStorage.getItem("tokenPM")
         if(!token)return 
     
-        const config={
-    headers:{
-    "Content-Type":"aplication-json",
-    Authorization:`Bearer ${token}`
-    }
-    
-    }
-    const {data}=await clientAxios.post("/projects",value,config);
-    ///setProyect(data.projects)
-    console.log(data)
+  
+    const {data}=await clientAxios.post("/projects",value,{
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }})
+    setProyect(data.projects)
+    showToastMessage(data.msg)
     
 } catch (error) {
     

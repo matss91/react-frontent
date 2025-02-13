@@ -27,7 +27,7 @@ e.preventDefault()
 try {
   if([name,description,dateEspire,client].includes("")) throw new Error("todos los campos son obligatorios")
     const now=new Date()
- /// if(new Date(dateEspire).getTime()<now.getTime()) throw new Error("la fecha de entrega no puede ser menor a la fecha actual")
+  if(new Date(dateEspire).getTime()<now.getTime()) throw new Error("la fecha de entrega no puede ser menor a la fecha actual")
 console.log(formValues)
  createProyect(formValues)
   } catch (error) {
