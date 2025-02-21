@@ -7,7 +7,7 @@ export interface Proyect{
 _id:string,
 name:string,
 description:string,
-dateEspire:string,
+dateExpire:string,
 client:string
 
 
@@ -17,7 +17,7 @@ client:string
 export interface proyectsContextProps{
     name:string,
     description:string,
-    dateEspire:string,
+    dateExpire:string,
     client:string
 
 }
@@ -27,7 +27,7 @@ export interface ProyectContextProps{
 proyects:Proyect[],
 proyect:Proyect,
 loading:Boolean,
-getProyect?:(id:string)=>void,
+getProyect:(id:string)=>void,
 createProyect:(value:proyectsContextProps)=>void
 
 
@@ -59,7 +59,7 @@ Authorization:`Bearer ${token}`
 
 }
 const {data}=await clientAxios.get("/projects",config);
-setProyect(data.projects)
+setproyects(data.projects)
 console.log(data)
 
     
@@ -80,12 +80,15 @@ const createProyect=async(value:proyectsContextProps)=>{
         if(!token)return 
     
   
-    const {data}=await clientAxios.post("/projects",value,{
+      const {data}=await clientAxios.post("/projects",value,{
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`
         }})
-    setProyect(data.projects)
+   
+
+
+setproyects([...proyects,data.project])
     showToastMessage(data.msg)
     
 } catch (error) {
@@ -94,7 +97,32 @@ const createProyect=async(value:proyectsContextProps)=>{
 
 
 }
-return(<ProyectContext.Provider value={{proyects,proyect,loading,createProyect}}>{children}</ProyectContext.Provider>)
+
+const getProyect=async(id:string)=>{
+try {
+    setloading(true)
+    
+    const token=localStorage.getItem("tokenPM")
+    if(!token)return 
+
+
+
+const {data}=await clientAxios.get(`/projects/${id}`,{
+    headers: {
+      'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+    }})
+    
+setProyect(data.project)
+
+} catch (error) {
+    console.log(error)
+    if(error instanceof Error)handleShowAlert(axios.isAxiosError(error)?error.response?.data.msg:error.message)
+}finally{setloading(false)}
+
+}
+
+return(<ProyectContext.Provider value={{proyects,proyect,loading,createProyect,getProyect}}>{children}</ProyectContext.Provider>)
 }
 
 export{ProyectProvider}

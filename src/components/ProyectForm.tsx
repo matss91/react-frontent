@@ -5,29 +5,32 @@ import { useForm } from "../hooks/useform"
 import axios from "axios";
 import { FormEvent } from "react";
 import useProyect from "../hooks/useProyect";
+import { useParams } from "react-router-dom";
 
 const ProyectForm = () => {
+  const {id}=useParams()
   const {alert}=useAuth()
   const {handleShowAlert}=useAuth()
-  const {createProyect}=useProyect()
+  const {createProyect,proyect}=useProyect()
+  console.log(proyect.dateExpire)
   const {handleInputChange,formValues,reset}= useForm<proyectsContextProps>({
-    name:"",
-    description:"",
-    dateEspire:"",
-    client:""
+    name:id?proyect.name:"",
+    description:id?proyect.description:"",
+    dateExpire:id?proyect.dateExpire.split("T")[0]:"",
+    client:id?proyect.client:"",
     
     
       })
 
-const {name,description,dateEspire,client}=formValues
+const {name,description,dateExpire,client}=formValues
 
 
 const handleSubmit=async(e:FormEvent)=>{
 e.preventDefault()
 try {
-  if([name,description,dateEspire,client].includes("")) throw new Error("todos los campos son obligatorios")
+  if([name,description,dateExpire,client].includes("")) throw new Error("todos los campos son obligatorios")
     const now=new Date()
-  if(new Date(dateEspire).getTime()<now.getTime()) throw new Error("la fecha de entrega no puede ser menor a la fecha actual")
+  if(new Date(dateExpire).getTime()<now.getTime()) throw new Error("la fecha de entrega no puede ser menor a la fecha actual")
 console.log(formValues)
  createProyect(formValues)
   } catch (error) {
@@ -74,7 +77,7 @@ alert.msg && <Alert {...alert}/>
   <label className="text-gray-700 uppercase font-bold text-sm" htmlFor="fechaEntrega">
     fecha de entrega
 </label>
-<input name="dateEspire" value={dateEspire} onChange={handleInputChange} id="nombre" type="date" className="border w-full p-2 mt-2 placeholder-gray-400 rounded-mg" placeholder="fecha de entrega">
+<input name="dateEspire" value={dateExpire} onChange={handleInputChange} id="nombre" type="date" className="border w-full p-2 mt-2 placeholder-gray-400 rounded-mg" placeholder="fecha de entrega">
 
 </input>
 

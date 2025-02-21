@@ -1,13 +1,25 @@
-import { Link } from "react-router-dom"
-
+import { Link, useParams } from "react-router-dom"
+import { useEffect } from "react";
+import useProyect from "../hooks/useProyect";
 
 const Proyect = () => {
-  return (
+  const {id}=useParams()
+  const {getProyect,proyect,loading}=useProyect()
+  useEffect(() => {
+     getProyect(id as string)
     
-
+  }, [id]);
+  return (
+    loading?
+    <p>cargando...</p>
+    
+:
 <>
+{/* si es admin */}
 <div className="flex justify-between">
-      <h1 className="font-black text-4xl ">{"proyecto"}</h1>
+      <h1 className="font-black text-4xl ">{proyect.name}</h1>
+      <h2 className="text-gray-400 text-2xl">para {proyect.client}</h2>
+      <p>{proyect.description}</p>
       {true && (
 <div className="flex items-center gap-2 text-gray-400 hover:text-black">
 <svg xmlns="http://www.w3.org.2000/svg" className="h-6 w-6 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -16,10 +28,11 @@ const Proyect = () => {
 
 </svg>
 
-<Link to={"/proyectos/editar-Proyecto/:id"} className="uppercase font-bold">Editar</Link>
+<Link to={`/proyectos/editar-Proyecto/${proyect._id}`} className="uppercase font-bold">Editar</Link>
 </div>
 ) }
 </div>
+
   {true && (
 <button type="button"
 className="text-sm px-5 py-3 w-full md:w-auto rounded-lg uppercase font-bold bg-sky-400 text-white text-center mt-5 flex gap-2 items-center"
