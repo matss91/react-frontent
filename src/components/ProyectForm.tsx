@@ -30,7 +30,10 @@ e.preventDefault()
 try {
   if([name,description,dateExpire,client].includes("")) throw new Error("todos los campos son obligatorios")
     const now=new Date()
-  if(new Date(dateExpire).getTime()<now.getTime()) throw new Error("la fecha de entrega no puede ser menor a la fecha actual")
+  if(!id){
+    if(new Date(dateExpire).getTime()<now.getTime()) throw new Error("la fecha de entrega no puede ser menor a la fecha actual")
+  }
+ 
 console.log(formValues)
  createProyect(formValues)
   } catch (error) {
@@ -77,7 +80,7 @@ alert.msg && <Alert {...alert}/>
   <label className="text-gray-700 uppercase font-bold text-sm" htmlFor="fechaEntrega">
     fecha de entrega
 </label>
-<input name="dateEspire" value={dateExpire} onChange={handleInputChange} id="nombre" type="date" className="border w-full p-2 mt-2 placeholder-gray-400 rounded-mg" placeholder="fecha de entrega">
+<input readOnly={id?true:false} name="dateExpire" value={dateExpire} onChange={handleInputChange} id="nombre" type="date" className="border w-full p-2 mt-2 placeholder-gray-400 rounded-mg" placeholder="fecha de entrega">
 
 </input>
 
@@ -99,7 +102,7 @@ alert.msg && <Alert {...alert}/>
 
 
 
-<input type="submit" value={"crear proyecto"} className="bg-sky-600 w-full p-3 uppercase font-bold text-white rounded cursor-pointer hover:bg-sky-700 transition-colors" ></input>
+<input type="submit" value={id ? "editar proyecto" : "crear proyecto"} className="bg-sky-600 w-full p-3 uppercase font-bold text-white rounded cursor-pointer hover:bg-sky-700 transition-colors" ></input>
 
 
 
