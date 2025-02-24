@@ -1,33 +1,90 @@
-import {  createContext, PropsWithChildren,useState } from "react";
+import {  createContext, PropsWithChildren,useEffect,useState } from "react";
+import { clientAxios } from "../config/clientAxios";
+import axios from "axios";
+
+
+interface Auth{
+    _id?:string,
+    name?:string,
+    email?:string,
+
+}
 
 export interface AuthContextProps{
 
-auth:{
-nombre?:string,
-apellido?:string,
-token?:string
+auth:Auth;
+setAuth:React.Dispatch<React.SetStateAction<Auth>>
+alert:{
+    msg:string
+};
+handleShowAlert:(msg:string)=>void,
+loading:boolean,
+signAut:()=>void
+
+ }
 
 
-},
-alert:{msg:string};
-handleShowAlert:(msg:string)=>void
 
-}
+ 
 
 const AuthContext=createContext<AuthContextProps>({} as AuthContextProps)
 
 const AuthProvider=({children}:PropsWithChildren)=>{
 const [alert, setalert] = useState({msg:""});
+const [auth, setAuth] = useState({});
+const [loading, setloading] = useState(true);
 
- const handleShowAlert=(msg:string)=>{
-setalert({msg})
-setTimeout(()=>{
-    setalert({msg:""})
-},3000)
+
+useEffect(() => {
+    
+    const signin=async()=>{
+const token=localStorage.getItem("tokenPM")
+console.log(token)
+
+if(!token){
+setloading(false)
+return null
+
 
 }
+try {
+    const {data}=await clientAxios.get("/profile",{headers:{
+"Content-Type":"application/json",
+authorization:`Bearer ${token}`
+
+
+
+
+    }})
+    
+    setAuth({_id:data.user._id,
+            name:data.user.name,
+            email:data.user.email
+    })
+  console.log(auth)
+} catch (error) {
+    console.log(error)
+    if(error instanceof Error)handleShowAlert(axios.isAxiosError(error)?error.response?.data.msg:error.message)
+    setAuth({})
+}finally{
+    setloading(false)
+}
+    }
+    signin()
+}, []);
+
+
+const handleShowAlert=(msg:string)=>{
+    setalert({msg})
+    setTimeout(()=>{
+        setalert({msg:""})
+    },3000)
+     }
+
+     const signAut=()=>setAuth({})
+
 return (
-<AuthContext.Provider value={{auth:{nombre:"matias",apellido:"c",token:"un token"},alert,handleShowAlert}}>
+<AuthContext.Provider value={{auth,setAuth,alert,handleShowAlert,loading,signAut}}>
     
     {children}
     
