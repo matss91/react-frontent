@@ -1,6 +1,6 @@
-import { Link, redirect, useNavigate } from "react-router-dom"
+import { Link, redirect, useNavigate,Navigate } from "react-router-dom"
 import{useForm}from"../hooks/useform"
-import { FormEvent,useContext } from "react";
+import { FormEvent,useContext, useState } from "react";
 import useAuth from "../hooks/useAuth"
 import { Alert } from "../components/Alert";
 import axios from "axios";
@@ -22,7 +22,7 @@ export const Login = () => {
     password:"",
    
   });
- 
+ const [login, setlogin] = useState(false);
   const {email,password}=formValues
 const handleSubmit=async(e:FormEvent)=>{
 e.preventDefault()
@@ -41,9 +41,9 @@ try {
  const {data}= await clientAxios.post("/login",{email,password})
 localStorage.setItem("tokenPM",data.token)
 console.log(data.user)
-setAuth(data)
+setlogin(false)
 
-navigate('/proyectos');
+
 
 
 } catch (error) {
@@ -52,10 +52,15 @@ navigate('/proyectos');
   handleShowAlert(axios.isAxiosError(error)?error.response?.data.msg:error)
 }
 reset()
-
+setlogin(true)
 }
   return (
     <>
+ <li className="item">
+      {login ? (
+        <Navigate to="/proyectos"></Navigate>
+      ) : (
+        <div>
     <h1 className="text-sky-600 font-black text-6xl capitalize"><span className="text-state-700">inicio sesion</span></h1>
        {alert.msg&&<Alert {...alert}></Alert>}
     <form method="POST" onSubmit={handleSubmit} className="my-10 bg-white shadow rounded-lg p-10" action="">
@@ -69,11 +74,17 @@ reset()
     </div>
     <button className="bg-gray-700 mb-5 w-full py-3 text-white uppercase font-bold rounded  "  type="submit">iniciar sesion</button>
     </form>
-    <nav>
-<Link to="/register">¿no tienes cuenta?registrate</Link>
-<Link to="/forget-password">olvidastes tu password</Link>
+    </div>
+      )}
+    </li>
+  
 
-    </nav>
+
+
+
+
+
+
     </>
   )
 }
